@@ -3,13 +3,18 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:weather_flutter/controller/weather_controller.dart';
+
 
 import '../style.dart';
 
 class CardInformation extends StatelessWidget {
   const CardInformation({
+    required this.weatherController,
     super.key,
   });
+
+  final WeatherController weatherController;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +49,7 @@ class CardInformation extends StatelessWidget {
                     width: 10,
                   ),
                   Text(
-                    'Surabaya',
+                    '${weatherController.cityName}',
                     style: Fonts.semiBold16,
                   )
                 ],
@@ -52,23 +57,23 @@ class CardInformation extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Info(
                     icon: 'lib/asset/8726449_wind_icon.svg',
-                    value: '5.66 m/s',
+                    value: '${weatherController.weather?.windSpeed} m/s',
                     infoName: 'Wind Speed',
                   ),
                   Info(
                     icon:
                         'lib/asset/2682807_drop_high_humidity_percentage_precipitation_icon.svg',
-                    value: '49%',
+                    value: '${weatherController.weather?.humidity}%',
                     infoName: 'Humidity',
                   ),
                   Info(
                     icon: 'lib/asset/gauge.svg',
-                    value: '1010 hPa',
+                    value: '${weatherController.weather?.pressure} hPa',
                     infoName: 'Pressure',
                   ),
                 ],

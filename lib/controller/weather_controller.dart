@@ -10,20 +10,23 @@ class WeatherController extends GetxController {
   var weatherServices =
       WeatherServices(apiKey: '025bf7f21bca338a41ebb2116ef4890d');
   WeatherModel? weather;
+  // var isLoading = true;
   String? cityName;
   String? animation;
 
   List<Color> bgColor = [];
 
   getWeather() async {
+    // isLoading = true;
+    // update();
     try {
       var location = await weatherServices.getLocation();
-      // print('dijalankan');
       weather = await weatherServices.getWeather(
           latitude: location[0].toString(), longitude: location[1].toString());
-      // print('dijalankan');
-      update();
       updateView();
+      getCityName();
+      update();
+      print(weather?.mainWeather);
     } catch (e) {
       print('error : $e');
     }
@@ -32,7 +35,6 @@ class WeatherController extends GetxController {
   getCityName() async {
     var location = await weatherServices.getLocation();
     var address = await placemarkFromCoordinates(location[0], location[1]);
-
     cityName = address[0].locality;
     update();
   }
@@ -51,38 +53,39 @@ class WeatherController extends GetxController {
       //clear
       sunny
     */
-    switch (weather?.mainWeather) {
+    switch (weather?.mainWeather.toLowerCase()) {
       case 'clouds':
       case 'mist':
       case 'smoke':
       case 'haze':
       case 'dust':
       case 'fog':
-        animation = 'lib/asset/cloudy.json';
+        weather?.mainWeather = 'Cloudy';
+        animation = WeatherAnimation.cloudy;
         bgColor = AppColor.cloudy;
-        update();
         break;
       case 'rain':
       case 'dizzle':
       case 'shower rain':
-        animation = 'lib/asset/rainy.json';
+        weather?.mainWeather = 'Rainy';
+        animation = WeatherAnimation.rainy;
         bgColor = AppColor.rainy;
       case 'thunderstorm':
-         animation = 'lib/asset/storm.json';
+        weather?.mainWeather = 'Storm';
+        animation = WeatherAnimation.storm;
         bgColor = AppColor.storm;
-        update();
         break;
       case 'clear':
-        animation = 'lib/asset/sunny.json';
+        weather?.mainWeather = 'Sunny';
+        animation = WeatherAnimation.sunny;
         bgColor = AppColor.sunny;
-        update();
         break;
       default:
-        animation = 'lib/asset/sunny.json';
+        weather?.mainWeather = 'Sunny';
+        animation = WeatherAnimation.sunny;
         bgColor = AppColor.sunny;
-        update();
         break;
     }
-    print(bgColor.toList());
+    update();
   }
 }

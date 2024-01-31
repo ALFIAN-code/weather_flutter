@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weather_flutter/controller/weather_controller.dart';
@@ -9,43 +7,45 @@ import 'package:lottie/lottie.dart';
 import '../style.dart';
 import '../widget/card_information.dart';
 
-class Home extends StatelessWidget {
-  Home({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   final weatherController = Get.put(WeatherController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      children: [
-        GetBuilder<WeatherController>(
-          didUpdateWidget: (__, _) => weatherController.bgColor,
-          builder:(controller) => Container(
+        body: GetBuilder<WeatherController>(
+      // didUpdateWidget: (oldWidget, state) => weatherController.getCityName() ,
+      initState: (state) => weatherController.getCityName(),
+      builder: (controller) => Stack(
+        children: [
+          Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
                     colors: weatherController.bgColor,
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight)),
           ),
-        ),
-        SafeArea(
-          child: Center(
+          Center(
             child: Padding(
-              padding: const EdgeInsets.only(top: 10),
+              padding: const EdgeInsets.only(top: 40),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   //weather
-                  GetBuilder<WeatherController>(
-                    didUpdateWidget: (_, __) => weatherController.updateView(),
-                    builder:(controller) => Text(
-                      '${weatherController.weather?.mainWeather}',
-                      style: Fonts.extraBold36,
-                    ),
+                  Text(
+                    '${weatherController.weather?.mainWeather}',
+                    style: Fonts.extraBold36,
                   ),
                   //animation
                   LottieBuilder.asset(
-                    WeatherAnimation.sunny,
+                    '${weatherController.animation}',
                     fit: BoxFit.cover,
                     height: 300,
                     width: 300,
@@ -57,13 +57,9 @@ class Home extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        GetBuilder<WeatherController>(
-                          initState: (state) => weatherController.getWeather(),
-                          init: WeatherController(),
-                          builder: (controller) =>  Text(
-                           '${weatherController.weather?.temperature}',
-                            style: Fonts.extraBold90,
-                          ),
+                        Text(
+                          '${weatherController.weather?.temperature}',
+                          style: Fonts.extraBold90,
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
@@ -78,26 +74,27 @@ class Home extends StatelessWidget {
                   ),
 
                   //feels like
-                  GetBuilder<WeatherController>(
-                    init: weatherController,
-                    initState: (state) => weatherController.getWeather(),
-                    builder: (controller) => Text(
-                      'feels Like ${weatherController.weather?.feelsLike}',
-                      style:
-                          Fonts.regular20.copyWith(fontWeight: FontWeight.w800),
-                    ),
+                  Text(
+                    'feels Like ${weatherController.weather?.feelsLike}',
+                    style:
+                        Fonts.regular20.copyWith(fontWeight: FontWeight.w800),
                   ),
                   const SizedBox(
                     height: 30,
                   ),
                   // card
-                  const CardInformation()
+                  CardInformation(
+                    weatherController: weatherController,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  )
                 ],
               ),
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     ));
   }
 }

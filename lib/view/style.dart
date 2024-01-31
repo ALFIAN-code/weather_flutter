@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class Fonts{
-  static TextStyle extraBold36 = GoogleFonts.poppins(fontSize: 37, color: Colors.black.withOpacity(0.5), fontWeight: FontWeight.w800);
+  static TextStyle extraBold36 = TextStyle(fontFamily: 'Poppins',fontSize: 37, color: Colors.black.withOpacity(0.5), fontWeight: FontWeight.w800);
   static TextStyle extraBold90 = extraBold36.copyWith(fontSize: 90, fontWeight: FontWeight.w800);
   static TextStyle medium44 = extraBold36.copyWith(fontSize: 44, fontWeight: FontWeight.w500);
   static TextStyle regular20 = extraBold36.copyWith(fontSize: 20, fontWeight: FontWeight.w200);
   static TextStyle semiBold16 = extraBold36.copyWith(fontSize: 16, fontWeight: FontWeight.w600);
   static TextStyle regular10 = extraBold36.copyWith(fontSize: 10, fontWeight: FontWeight.w400);
+
+  static TextStyle bold18 = extraBold36.copyWith(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black.withOpacity(.7),);
+  static TextStyle regular12 = extraBold36.copyWith(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black);
+
 }
 
 class AppColor{

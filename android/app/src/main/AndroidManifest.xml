@@ -4,6 +4,7 @@
     <application
         android:label="weather_flutter"
         android:name="${applicationName}"
+         android:enableOnBackInvokedCallback="false"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
