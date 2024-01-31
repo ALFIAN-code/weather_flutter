@@ -1,4 +1,5 @@
 # weather_flutter
+![image](https://github.com/ALFIAN-code/weather_flutter/assets/82469267/8802f72d-0c58-4046-b4f8-7b208c5812b4)
 
 A new Flutter project.
 
